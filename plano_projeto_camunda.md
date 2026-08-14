@@ -8,6 +8,12 @@ Construir um sistema de gestão operacional com workflow leve, baseado em tarefa
 - Backend em Python + Flask.
 - PostgreSQL como banco de dados.
 - Workflow interno simples, tipo ticket/kanban.
+- Projeto whitelabel com branding configurável por cliente.
+- Página administrativa para alterar título do site e logo.
+- Controle de acesso por perfil e permissões.
+- Sessão protegida por JWT e validação de rota por usuário logado.
+- Menu dinâmico conforme permissões do perfil.
+- Cadastro de funcionários com perfis e acesso distintos.
 - Execução local utilizando containers.
 - Stack inicialmente 100% gratuita.
 - Estrutura preparada para futuramente publicar em um servidor.
@@ -68,9 +74,12 @@ O princípio será separar claramente:
 - **Flask:** responsável pelas regras e APIs da aplicação.
 - **PostgreSQL:** responsável pelos dados da aplicação e pelo histórico de tarefas.
 - **Workflow interno:** gerenciado por status e regras próprias do sistema, em vez de um motor de BPM pesado.
+- **Whitelabel / Administração:** responsável por permitir alterar o título do site, o logo e outros elementos visuais por cliente.
+- **Autenticação e autorização:** responsável por validar JWT, sessão ativa, perfil e permissões de acesso.
+- **Cadastro de funcionários:** responsável por manter usuários, perfis, status e vínculos de acesso.
 - **GitHub:** responsável pelo versionamento.
 
-Esses dois sites serão independentes em estrutura e objetivos: um voltado para divulgação e outro para uso interno do negócio e gestão do processo.
+Esses dois sites serão independentes em estrutura e objetivos: um voltado para divulgação e outro para uso interno do negócio e gestão do processo. Além disso, haverá uma área administrativa do sistema para personalizar a marca do cliente e um sistema de segurança com perfis, JWT e controle de acesso por rota e menu.
 
 ---
 
@@ -103,6 +112,8 @@ LA-CONTABILIDADE/
 │   ├── routes/
 │   ├── services/
 │   ├── models/
+│   ├── admin/
+│   │   └── branding.py
 │   └── workflow/
 │       ├── status.py
 │       └── regras.py
@@ -121,6 +132,10 @@ LA-CONTABILIDADE/
 
 Observação: o `site-publico` será a área de apresentação e marketing do projeto, separada do `site-bpm`, que será a interface interna de operação do workflow e da contabilidade. Essa separação evita misturar experiência pública com experiência operacional.
 
+Regra de arquitetura: cada workflow de cada subtarefa deve ser desenvolvido em um arquivo separado, seguindo o princípio de responsabilidade única (`single responsibility`). Isso torna cada fluxo mais simples de testar, evoluir e corrigir sem acoplar regras de diferentes processos.
+
+Regra de segurança: todas as rotas da aplicação devem validar se a sessão está ativa por JWT e, em seguida, verificar se o usuário logado possui autorização para acessar a rota solicitada. O menu deve ser renderizado dinamicamente com base no perfil do usuário autenticado.
+
 ---
 
 # 5. Fase 1 — Preparar o ambiente
@@ -138,11 +153,13 @@ Ter tudo funcionando localmente antes de começar o desenvolvimento.
 - [ ] Configurar Python.
 - [ ] Criar ambiente virtual Python.
 - [ ] Instalar Flask.
+- [ ] Instalar PyJWT.
 - [ ] Instalar Podman ou Docker.
 - [ ] Testar containers.
 - [ ] Subir PostgreSQL em container.
 - [ ] Definir workflow interno de etapas.
 - [ ] Definir regras de transição de status.
+- [ ] Definir perfis: admin, gerente, supervisor e analista.
 
 ---
 
@@ -182,6 +199,26 @@ Concluída
 - `concluida`: finalizada.
 
 Cada transição pode ser controlada no backend com validações simples, sem precisar de um motor de workflow externo.
+
+Além disso, cada perfil terá permissões específicas:
+
+- **admin**: acesso total ao sistema, configuração, usuários e branding.
+- **gerente**: acesso operacional e gestão de equipe.
+- **supervisor**: acompanhamento e aprovação de rotas específicas.
+- **analista**: execução de tarefas operacionais e consulta limitada.
+
+Regra prática: cada tipo de processo ou subtarefa deve ter seu próprio arquivo de workflow, por exemplo:
+
+```text
+backend/workflow/
+├── solicitacao.py
+├── aprovacao.py
+├── rejeicao.py
+├── fechamento.py
+└── historico.py
+```
+
+Cada arquivo será responsável por uma parte do fluxo, mantendo uma responsabilidade única.
 
 ---
 
@@ -241,6 +278,15 @@ POST   /api/tarefas/<id>/atualizar-status
 - [ ] Configurar conexão PostgreSQL.
 - [ ] Criar camada de serviços.
 - [ ] Implementar o motor de workflow em Python.
+- [ ] Criar módulo de autenticação com JWT.
+- [ ] Criar módulo de autorização por perfil.
+- [ ] Validar sessão ativa em todas as rotas protegidas.
+- [ ] Criar módulo de branding/whitelabel.
+- [ ] Persistir título do site e logo no banco.
+- [ ] Expor endpoints de configuração visual para administração.
+- [ ] Criar módulo de cadastro de funcionários.
+- [ ] Criar relacionamento entre usuário e perfil.
+- [ ] Criar menu dinâmico por perfil.
 - [ ] Criar tratamento de erros.
 - [ ] Criar logs.
 - [ ] Criar testes básicos da API.
@@ -284,11 +330,16 @@ Exemplo de interface:
 ### Tarefas
 
 - [ ] Criar layout principal.
-- [ ] Criar menu lateral.
+- [ ] Criar menu lateral dinâmico por perfil.
 - [ ] Criar dashboard.
 - [ ] Criar tela de tarefas.
 - [ ] Criar tela de detalhes da tarefa.
 - [ ] Criar formulários.
+- [ ] Criar área de administração do whitelabel.
+- [ ] Permitir alterar título do site na interface administrativa.
+- [ ] Permitir alterar logo do site na interface administrativa.
+- [ ] Criar tela de login com JWT.
+- [ ] Criar tela de cadastro de funcionários.
 - [ ] Criar mensagens de sucesso/erro.
 - [ ] Tornar interface responsiva.
 - [ ] Testar no celular.
@@ -449,6 +500,9 @@ Depois que o MVP funcionar:
 - [ ] Adicionar autenticação.
 - [ ] Adicionar autorização.
 - [ ] Criar usuários e perfis.
+- [ ] Criar suporte a múltiplos clientes whitelabel.
+- [ ] Validar JWT em todas as rotas.
+- [ ] Validar permissão por rota e perfil.
 - [ ] Criar logs.
 - [ ] Criar auditoria.
 - [ ] Criar testes automatizados.
@@ -525,6 +579,13 @@ A primeira versão deve ter somente:
 - [ ] Flask conversando com PostgreSQL.
 - [ ] Processo completo funcionando.
 - [ ] Histórico de ações funcionando.
+- [ ] JWT funcionando em todas as rotas protegidas.
+- [ ] Permissões por perfil funcionando.
+- [ ] Menu dinâmico por perfil funcionando.
+- [ ] Admin de whitelabel funcionando.
+- [ ] Título do site alterável pela administração.
+- [ ] Logo do site alterável pela administração.
+- [ ] Cadastro de funcionários funcionando.
 - [ ] Código no GitHub.
 - [ ] Projeto executável através de containers.
 - [ ] README explicando como executar.
