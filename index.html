@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L&A Contabilidade — Inteligência Contábil em Jaú/SP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="siteHeader">
+        <nav class="nav-wrapper">
+            <div class="logo" onclick="scrollToSection('hero')">L&A<span>Contabilidade</span></div>
+            
+            <div class="nav-links" id="navLinks">
+                <a onclick="scrollToSection('hero')">Início</a>
+                <a onclick="scrollToSection('servicos')">Serviços</a>
+                <a onclick="scrollToSection('sobre')">Sobre</a>
+                <a onclick="scrollToSection('blog')">Blog</a>
+                <a onclick="scrollToSection('depoimentos')">Depoimentos</a>
+                <a onclick="scrollToSection('faq')">FAQ</a>
+                <a onclick="scrollToSection('contato')">Contato</a>
+                
+                <a class="nav-cta" onclick="scrollToSection('contato')">Fale com especialista</a>
+                
+                <div class="login-dropdown">
+                    <a class="nav-cta login-btn">Área Restrita ▾</a>
+                    <div class="login-menu">
+                        <a href="portal-cliente.html">Área do Cliente</a>
+                        <a href="portal-admin.html">Área do Colaborador</a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="burger" onclick="toggleMenu()">☰</button>
+        </nav>
+    </header>
+
+    <main id="site">
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Sua contabilidade sem dor de cabeça e com foco no seu crescimento</h1>
+                    
+                    <div class="hero-buttons">
+                        <a class="btn btn-green" href="https://wa.me/5519993722955?text=Olá,%20gostaria%20de%20falar%20com%20um%20contador" target="_blank">💬 Fale com especialista</a>
+                        <a class="btn btn-outline" onclick="scrollToSection('servicos')">Conheça os serviços</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="servicos">
+            <div class="section-center">
+                <div class="section-title">
+                    <h2>Serviços que resolvem sua vida</h2>
+                    <p>Cada serviço foi desenhado para eliminar uma dor específica do seu negócio.</p>
+                </div>
+                
+                <div class="servicos-grid">
+                    <div class="servico-card">
+                        <div class="servico-icon icon-blue">🏢</div>
+                        <h3>Contabilidade Completa</h3>
+                        <p>Gestão integral de balancetes, livros contábeis e obrigações acessórias.</p>
+                        <span class="benefit">✅ Segurança total contra fiscalizações</span>
+                    </div>
+                    
+                    <div class="servico-card">
+                        <div class="servico-icon icon-green">🚀</div>
+                        <h3>Abertura de Empresa</h3>
+                        <p>Processo agilizado de CNPJ com enquadramento tributário correto desde o dia 1.</p>
+                        <span class="benefit">✅ Comece a faturar rápido</span>
+                    </div>
+                    
+                    <div class="servico-card">
+                        <div class="servico-icon icon-orange">👥</div>
+                        <h3>Folha de Pagamento / DP</h3>
+                        <p>Admissões, demissões, encargos e eSocial sem complicações.</p>
+                        <span class="benefit">✅ Redução de riscos trabalhistas</span>
+                    </div>
+                    
+                    <div class="servico-card">
+                        <div class="servico-icon icon-red">📋</div>
+                        <h3>Impostos e Obrigações Fiscais</h3>
+                        <p>Apuração de tributos, emissão de guias e envio de declarações.</p>
+                        <span class="benefit">✅ Sem multas por atraso</span>
+                    </div>
+                    
+                    <div class="servico-card">
+                        <div class="servico-icon icon-blue">🛡️</div>
+                        <h3>Assessoria para MEI</h3>
+                        <p>Formalização e Declaração Anual (DASN-SIMEI) com segurança.</p>
+                        <span class="benefit">✅ Benefícios previdenciários em dia</span>
+                    </div>
+                    
+                    <div class="servico-card">
+                        <div class="servico-icon icon-orange">🔧</div>
+                        <h3>Regularização de Pendências</h3>
+                        <p>Parcelamento de dívidas e entrega de declarações atrasadas.</p>
+                        <span class="benefit">✅ Recuperação do crédito e CNPJ regular</span>
+                    </div>
+                    
+                    <div class="servico-card">
+                        <div class="servico-icon icon-red">📊</div>
+                        <h3>IR Pessoa Física</h3>
+                        <p>Planejamento e entrega da declaração para profissionais liberais.</p>
+                        <span class="benefit">✅ Máxima restituição legal</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section sobre" id="sobre">
+            <div class="section-center">
+                <div class="sobre-grid">
+                    <div class="sobre-text">
+                        <h2>Sobre a L&A Contabilidade</h2>
+                        <p>Há mais de 10 anos simplificando a burocracia para empresas de todos os portes. Nossa missão é transformar a contabilidade em uma ferramenta estratégica de crescimento — não apenas uma obrigação.</p>
+                        <div class="sobre-features">
+                            <div class="sobre-feature">
+                                <span class="check">✓</span>
+                                <div><h4>Atendimento Digital</h4><p>100% online, sem precisar ir ao escritório</p></div>
+                            </div>
+                            <div class="sobre-feature">
+                                <span class="check">✓</span>
+                                <div><h4>Equipe Certificada</h4><p>Profissionais com CRC ativo</p></div>
+                            </div>
+                            <div class="sobre-feature">
+                                <span class="check">✓</span>
+                                <div><h4>LGPD Compliant</h4><p>Dados protegidos por criptografia</p></div>
+                            </div>
+                            <div class="sobre-feature">
+                                <span class="check">✓</span>
+                                <div><h4>Portal do Cliente</h4><p>Acesso 24h a guias e documentos</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sobre-stats">
+                        <div class="sobre-stat"><div class="num">+10</div><div class="label">Anos de experiência</div></div>
+                        <div class="sobre-stat"><div class="num">100%</div><div class="label">Satisfação</div></div>
+                        <div class="sobre-stat"><div class="num">100%</div><div class="label">Digital</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="depoimentos">
+            <div class="section-center">
+                <div class="section-title">
+                    <h2>O que dizem nossos clientes</h2>
+                    <p>Resultados reais de quem confia na gente.</p>
+                </div>
+                <div class="depo-grid">
+                    <div class="depo-card">
+                        <div class="depo-stars">★★★★★</div>
+                        <p class="depo-text">"Reorganizaram nosso fluxo fiscal e o atendimento é impecável. Nunca mais tive problemas com declarações."</p>
+                        <div class="depo-author">
+                            <div class="depo-avatar">JS</div>
+                            <div><h4>João Silva</h4><span>Diretor — TechSoluções</span></div>
+                        </div>
+                    </div>
+                    <div class="depo-card">
+                        <div class="depo-stars">★★★★★</div>
+                        <p class="depo-text">"Abri minha empresa em 5 dias e sem nenhuma dor de cabeça. Atendimento impecável."</p>
+                        <div class="depo-author">
+                            <div class="depo-avatar">MR</div>
+                            <div><h4>Maria Rocha</h4><span>CEO — MR Estética</span></div>
+                        </div>
+                    </div>
+                    <div class="depo-card">
+                        <div class="depo-stars">★★★★★</div>
+                        <p class="depo-text">"O portal do cliente mudou tudo. Acesso a guias e documentos 24h, não preciso mais correr atrás."</p>
+                        <div class="depo-author">
+                            <div class="depo-avatar">CL</div>
+                            <div><h4>Carlos Lima</h4><span>Dono — Lima Distribuidora</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="blog" style="background:var(--light)">
+            <div class="section-center">
+                <div class="section-title">
+                    <h2>Blog & Conteúdo</h2>
+                    <p>Artigos práticos para você entender impostos, MEI e gestão empresarial.</p>
+                </div>
+                <div class="blog-grid">
+                    <div class="blog-card">
+                        <div class="blog-thumb" style="background:rgba(49,130,206,.1)">📘</div>
+                        <span class="tag">MEI</span>
+                        <h3>MEI: O que muda com o novo limite de faturamento em 2026</h3>
+                        <p>Entenda as mudanças no Simples Nacional e como se adaptar.</p>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-thumb" style="background:rgba(56,161,105,.1)">💰</div>
+                        <span class="tag">Tributário</span>
+                        <h3>Lucro Presumido vs Simples Nacional: qual escolher?</h3>
+                        <p>Comparativo completo para você decidir o melhor regime.</p>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-thumb" style="background:rgba(221,107,32,.1)">📝</div>
+                        <span class="tag">Prático</span>
+                        <h3>Como calcular o DAS do MEI sem erros</h3>
+                        <p>Passo a passo simples para não errar na hora de pagar.</p>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-thumb" style="background:rgba(229,62,62,.1)">⚠️</div>
+                        <span class="tag">Aviso</span>
+                        <h3>Consequências legais de atrasar a declaração</h3>
+                        <p>Multas, bloqueios e riscos que você corre ao não declarar.</p>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-thumb" style="background:rgba(49,130,206,.1)">🚀</div>
+                        <span class="tag">Empreendedorismo</span>
+                        <h3>Passo a passo para abrir uma empresa em 2026</h3>
+                        <p>Do contrato social ao primeiro DAS — guia completo.</p>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-thumb" style="background:rgba(56,161,105,.1)">📊</div>
+                        <span class="tag">Gestão</span>
+                        <h3>Pró-labore: quanto o sócio deve se pagar?</h3>
+                        <p>Como definir o salário do sócio de forma correta e legal.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section faq" id="faq">
+            <div class="section-center" style="max-width:800px">
+                <div class="section-title">
+                    <h2>Perguntas Frequentes</h2>
+                    <p>Tire suas dúvidas antes mesmo de falar com a gente.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFAQ(this)">Quanto custa a contabilidade? <span class="arrow">▼</span></div>
+                    <div class="faq-a"><p>Os honorários são personalizados conforme o volume de notas e número de funcionários. Solicite um orçamento gratuito.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFAQ(this)">Preciso de contador sendo MEI? <span class="arrow">▼</span></div>
+                    <div class="faq-a"><p>Por lei não é obrigatório, mas a assessoria evita erros na declaração anual e garante a correta distribuição de lucros.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFAQ(this)">Atendem empresas de qualquer estado? <span class="arrow">▼</span></div>
+                    <div class="faq-a"><p>Sim! Operamos de forma 100% digital com abrangência nacional.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFAQ(this)">Como funciona o envio de documentos? <span class="arrow">▼</span></div>
+                    <div class="faq-a"><p>Tudo é feito via nossa Área do Cliente ou WhatsApp, de forma 100% digital e segura.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFAQ(this)">Qual o prazo para abrir minha empresa? <span class="arrow">▼</span></div>
+                    <div class="faq-a"><p>Em média de 3 a 10 dias úteis, dependendo da agilidade da prefeitura local.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFAQ(this)">Preciso ir até o escritório? <span class="arrow">▼</span></div>
+                    <div class="faq-a"><p>Não! Todos os processos são resolvidos online. Mas estamos abertos para reuniões presenciais se preferir.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFAQ(this)">O que acontece se eu não declarar? <span class="arrow">▼</span></div>
+                    <div class="faq-a"><p>Multas pesadas, bloqueio do CPF/CNPJ e impedimento de obter empréstimos ou participar de licitações.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFAQ(this)">Vocês fazem declaração de IR Pessoa Física? <span class="arrow">▼</span></div>
+                    <div class="faq-a"><p>Sim, realizamos o planejamento e a entrega para sócios e profissionais liberais.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="contato">
+            <div class="section-center">
+                <div class="section-title">
+                    <h2>Fale com a gente</h2>
+                    <p>Solicite um orçamento gratuito ou tire dúvidas. Respondemos rápido.</p>
+                </div>
+                <div class="contato-grid">
+                    <div class="contato-info">
+                        <h3>📞 Canais de atendimento</h3>
+                        <p>💬 WhatsApp: (19) 99372-2955</p>
+                        <p>📧 E-mail: lucilla.almeida92@gmail.com</p>
+                        <p>📍 Endereço: Rua Ângelo Zugliani, 313 — Jardim Maria Luíza 1, Jaú - SP</p>
+                        <p>🕐 Seg a Sex: 8h às 18h</p>
+                        <h3 style="margin-top:2rem">🔒 Segurança e LGPD</h3>
+                        <p>Site protegido. Seus dados são tratados conforme a LGPD.</p>
+                    </div>
+                    <form class="contato-form" onsubmit="submitContato(event)">
+                        <div class="form-group"><label>Nome completo</label><input type="text" required placeholder="Seu nome"></div>
+                        <div class="form-group"><label>E-mail</label><input type="email" required placeholder="seu@email.com"></div>
+                        <div class="form-group"><label>WhatsApp</label><input type="tel" required placeholder="(99) 99999-9999"></div>
+                        <div class="form-group">
+                            <label>Tipo de empresa</label>
+                            <select required>
+                                <option value="">Selecione...</option>
+                                <option>MEI</option>
+                                <option>ME — Microempresa</option>
+                                <option>EPP — Empresa de Pequeno Porte</option>
+                                <option>Outros / ainda não tenho</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Mensagem</label><textarea rows="3" placeholder="Conte um pouco sobre sua necessidade..."></textarea></div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Enviar mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-final">
+            <h2>Pronto para regularizar sua empresa?</h2>
+            <p>Fale agora com um especialista e receba um diagnóstico gratuito.</p>
+            <a class="btn btn-green" href="https://wa.me/5519993722955?text=Olá,%20gostaria%20de%20um%20diagnóstico%20gratuito" target="_blank">💬 Iniciar conversa no WhatsApp</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>L&A Contabilidade</h4>
+                <p>Contabilidade inteligente para empresas que querem crescer sem dor de cabeça.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Links rápidos</h4>
+                <a onclick="scrollToSection('servicos')">Serviços</a>
+                <a onclick="scrollToSection('sobre')">Sobre nós</a>
+                <a onclick="scrollToSection('blog')">Blog</a>
+                <a onclick="scrollToSection('faq')">FAQ</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <p>(19) 99372-2955</p>
+                <p>lucilla.almeida92@gmail.com</p>
+                <p>Rua Ângelo Zugliani, 313</p>
+            </div>
+            <div class="footer-col">
+                <h4>Áreas restritas</h4>
+                <a href="portal-cliente.html">Área do Cliente</a>
+                <a href="portal-admin.html">Área do Colaborador</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 L&A Contabilidade  | Todos os direitos reservados | 🔒 LGPD Compliant</p>
+        </div>
+    </footer>
+
+    <a class="wa-float" href="https://wa.me/5519993722955?text=Olá,%20gostaria%20de%20falar%20com%20um%20contador" target="_blank">💬</a>
+
+    <script src="site.js"></script>
+</body>
+</html>
