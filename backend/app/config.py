@@ -15,6 +15,7 @@ class Config:
         "postgresql+psycopg://la_user:la_password@localhost:5432/la_contabilidade",
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    JWT_EXPIRATION_HOURS = int(os.getenv("JWT_EXPIRATION_HOURS", "8"))
 
 
 def get_config() -> type[Config]:

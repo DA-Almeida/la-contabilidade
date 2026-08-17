@@ -26,8 +26,8 @@
                 <div class="login-dropdown">
                     <a class="nav-cta login-btn">Área Restrita ▾</a>
                     <div class="login-menu">
-                        <a href="portal-cliente.html">Área do Cliente</a>
-                        <a href="portal-admin.html">Área do Colaborador</a>
+                        <a href="/acesso/cliente">Área do Cliente</a>
+                        <a href="/acesso/equipe">Área do Colaborador</a>
                     </div>
                 </div>
             </div>
@@ -283,13 +283,13 @@
                         <h3 style="margin-top:2rem">🔒 Segurança e LGPD</h3>
                         <p>Site protegido. Seus dados são tratados conforme a LGPD.</p>
                     </div>
-                    <form class="contato-form" onsubmit="submitContato(event)">
-                        <div class="form-group"><label>Nome completo</label><input type="text" required placeholder="Seu nome"></div>
-                        <div class="form-group"><label>E-mail</label><input type="email" required placeholder="seu@email.com"></div>
-                        <div class="form-group"><label>WhatsApp</label><input type="tel" required placeholder="(99) 99999-9999"></div>
+                    <form class="contato-form" id="contactForm" onsubmit="submitContato(event)">
+                        <div class="form-group"><label for="contactName">Nome completo</label><input id="contactName" name="name" type="text" required placeholder="Seu nome"></div>
+                        <div class="form-group"><label for="contactEmail">E-mail</label><input id="contactEmail" name="email" type="email" required placeholder="seu@email.com"></div>
+                        <div class="form-group"><label for="contactPhone">WhatsApp</label><input id="contactPhone" name="phone" type="tel" required placeholder="(99) 99999-9999"></div>
                         <div class="form-group">
-                            <label>Tipo de empresa</label>
-                            <select required>
+                            <label for="contactCompanyType">Tipo de empresa</label>
+                            <select id="contactCompanyType" name="company_type" required>
                                 <option value="">Selecione...</option>
                                 <option>MEI</option>
                                 <option>ME — Microempresa</option>
@@ -297,8 +297,9 @@
                                 <option>Outros / ainda não tenho</option>
                             </select>
                         </div>
-                        <div class="form-group"><label>Mensagem</label><textarea rows="3" placeholder="Conte um pouco sobre sua necessidade..."></textarea></div>
-                        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Enviar mensagem</button>
+                        <div class="form-group"><label for="contactMessage">Mensagem</label><textarea id="contactMessage" name="message" rows="3" placeholder="Conte um pouco sobre sua necessidade..."></textarea></div>
+                        <button id="contactSubmit" type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Enviar mensagem</button>
+                        <p id="contactFeedback" role="status" aria-live="polite" style="margin-top:1rem;font-size:.9rem"></p>
                     </form>
                 </div>
             </div>
@@ -332,8 +333,8 @@
             </div>
             <div class="footer-col">
                 <h4>Áreas restritas</h4>
-                <a href="portal-cliente.html">Área do Cliente</a>
-                <a href="portal-admin.html">Área do Colaborador</a>
+                <a href="/acesso/cliente">Área do Cliente</a>
+                <a href="/acesso/equipe">Área do Colaborador</a>
             </div>
         </div>
         <div class="footer-bottom">
