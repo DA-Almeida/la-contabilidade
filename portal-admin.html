@@ -1,7 +1,604 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Área da Equipe | L&A Contabilidade</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="portal.css"></head>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Área da Equipe | L&A Contabilidade</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="portal.css">
+</head>
 <body class="bg-body-tertiary">
-  <main id="loginView" class="container py-5"><div class="row justify-content-center min-vh-100 align-items-center"><div class="col-12 col-md-8 col-lg-5"><div class="card border-0 shadow-sm"><div class="card-body p-4 p-md-5"><a class="navbar-brand fw-bold text-primary" href="/">L&A <span class="text-info">Contabilidade</span></a><h1 class="h3 mt-4">Área da equipe</h1><p class="text-secondary">Acesse a operação interna do escritório.</p><form onsubmit="signIn(event,['admin','colaborador'])"><div class="mb-3"><label class="form-label" for="email">E-mail</label><input class="form-control" id="email" name="email" type="email" required autocomplete="email"></div><div class="mb-3"><label class="form-label" for="password">Senha</label><input class="form-control" id="password" name="password" type="password" required autocomplete="current-password"></div><button class="btn btn-primary w-100">Entrar</button><p class="feedback mt-3 mb-0" role="status"></p></form><details class="mt-4"><summary class="text-primary fw-semibold">Primeiro acesso? Criar administrador</summary><form class="mt-3" onsubmit="bootstrapAdmin(event)"><div class="mb-3"><label class="form-label">Nome</label><input class="form-control" name="name" required autocomplete="name"></div><div class="mb-3"><label class="form-label">E-mail</label><input class="form-control" name="email" type="email" required autocomplete="email"></div><div class="mb-3"><label class="form-label">Senha</label><input class="form-control" name="password" type="password" minlength="8" required autocomplete="new-password"></div><button class="btn btn-outline-primary w-100">Criar administrador</button><p class="feedback mt-3 mb-0" role="status"></p></form></details></div></div></div></div></main>
-  <div id="appView" class="d-none"><nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm"><div class="container-fluid px-lg-4"><a class="navbar-brand fw-bold" href="/">L&A Contabilidade</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#teamNav"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="teamNav"><span class="navbar-text ms-lg-auto me-lg-3">Olá, <span data-user-name></span></span><button class="btn btn-outline-light btn-sm" onclick="logout()">Sair</button></div></div></nav><main class="container-fluid p-3 p-md-4"><div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-4"><div><h1 class="h3 mb-1">Painel geral</h1><p class="text-secondary mb-0">Resumo da operação da L&A Contabilidade.</p></div><a class="btn btn-outline-primary" href="#contacts">Ver contatos</a></div><p id="adminFeedback" class="feedback" role="status"></p><section class="row g-3"><div class="col-sm-6 col-xl-4"><article class="card h-100 border-0 shadow-sm"><div class="card-body"><div class="text-secondary small">Leads recebidos</div><div id="leadCount" class="display-6 fw-semibold">—</div></div></article></div><div class="col-sm-6 col-xl-4 admin-only"><article class="card h-100 border-0 shadow-sm"><div class="card-body"><div class="text-secondary small">Contas cadastradas</div><div id="userCount" class="display-6 fw-semibold">—</div></div></article></div><div class="col-sm-6 col-xl-4"><article class="card h-100 border-0 shadow-sm"><div class="card-body"><div class="text-secondary small">Status</div><div class="fw-semibold text-success mt-2">Sistema operacional</div></div></article></div></section><section class="row g-4 mt-1 admin-only"><div class="col-lg-5"><div class="card border-0 shadow-sm"><div class="card-body"><h2 class="h5">Nova conta de acesso</h2><form onsubmit="createUser(event)"><div class="mb-3"><label class="form-label">Nome</label><input class="form-control" name="name" required></div><div class="mb-3"><label class="form-label">E-mail</label><input class="form-control" name="email" type="email" required></div><div class="mb-3"><label class="form-label">Senha inicial</label><input class="form-control" name="password" type="password" minlength="8" required></div><div class="mb-3"><label class="form-label">Perfil</label><select class="form-select" name="role"><option value="cliente">Cliente</option><option value="colaborador">Colaborador</option><option value="admin">Administrador</option></select></div><button class="btn btn-primary w-100">Criar acesso</button><p class="feedback mt-3 mb-0" role="status"></p></form></div></div></div><div class="col-lg-7"><div class="card border-0 shadow-sm"><div class="card-body"><h2 class="h5">Usuários</h2><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th></tr></thead><tbody id="usersBody"></tbody></table></div></div></div></div></section><section id="contacts" class="card border-0 shadow-sm mt-4"><div class="card-body"><h2 class="h5">Contatos do site</h2><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Nome</th><th>E-mail</th><th>Empresa</th><th>Recebido em</th></tr></thead><tbody id="leadsBody"></tbody></table></div></div></section></main></div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="portal.js"></script><script>initializePortal({roles:['admin','colaborador'],load:loadAdmin})</script>
-</body></html>
+  <main id="loginView" class="container py-5">
+    <div class="row justify-content-center min-vh-100 align-items-center">
+      <div class="col-12 col-md-8 col-lg-5">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4 p-md-5">
+            <a class="navbar-brand fw-bold text-primary" href="/">L&A <span class="text-info">Contabilidade</span></a>
+            <h1 class="h3 mt-4">Área da equipe</h1>
+            <p class="text-secondary">Acesse a operação interna do escritório.</p>
+            <form onsubmit="signIn(event,['admin','colaborador'])">
+              <div class="mb-3">
+                <label class="form-label" for="email">E-mail</label>
+                <input class="form-control" id="email" name="email" type="email" required autocomplete="email">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="password">Senha</label>
+                <input class="form-control" id="password" name="password" type="password" required autocomplete="current-password">
+              </div>
+              <button class="btn btn-primary w-100" type="submit">Entrar</button>
+              <p class="feedback mt-3 mb-0" role="status"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="appView" class="d-none">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+      <div class="container-fluid px-lg-4">
+        <a class="navbar-brand fw-bold" href="/">L&A Contabilidade</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#teamNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="teamNav">
+          <span class="navbar-text ms-lg-auto me-lg-3">Olá, <span data-user-name></span></span>
+          <button class="btn btn-outline-light btn-sm" onclick="logout()">Sair</button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container-fluid p-3 p-md-4">
+      <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-4">
+        <div>
+          <h1 class="h3 mb-1">Painel geral</h1>
+          <p class="text-secondary mb-0">Resumo da operação da L&A Contabilidade.</p>
+        </div>
+        <a class="btn btn-outline-primary" href="#contacts">Ver contatos</a>
+      </div>
+
+      <p id="adminFeedback" class="feedback" role="status"></p>
+
+      <section class="row g-3">
+        <div class="col-sm-6 col-xl-3">
+          <article class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="text-secondary small">Leads recebidos</div>
+              <div id="leadCount" class="display-6 fw-semibold">—</div>
+            </div>
+          </article>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <article class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="text-secondary small">Clientes ativos</div>
+              <div id="customerCount" class="display-6 fw-semibold">—</div>
+            </div>
+          </article>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <article class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="text-secondary small">Colaboradores</div>
+              <div id="employeeCount" class="display-6 fw-semibold">—</div>
+            </div>
+          </article>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <article class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="text-secondary small">Tarefas abertas</div>
+              <div id="taskOpenCount" class="display-6 fw-semibold">—</div>
+            </div>
+          </article>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <article class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="text-secondary small">Tickets abertos</div>
+              <div id="ticketOpenCount" class="display-6 fw-semibold">—</div>
+            </div>
+          </article>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <article class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="text-secondary small">Guias pendentes</div>
+              <div id="guidePendingCount" class="display-6 fw-semibold">—</div>
+            </div>
+          </article>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <article class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="text-secondary small">Obrigações pendentes</div>
+              <div id="obligationPendingCount" class="display-6 fw-semibold">—</div>
+            </div>
+          </article>
+        </div>
+        <div class="col-sm-6 col-xl-3 admin-only">
+          <article class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="text-secondary small">Contas cadastradas</div>
+              <div id="userCount" class="display-6 fw-semibold">—</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="row g-4 mt-1">
+        <div class="col-xl-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h2 class="h5">Cadastrar cliente</h2>
+              <form onsubmit="createCustomer(event)">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Razão social</label>
+                    <input class="form-control" name="legal_name" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Nome fantasia</label>
+                    <input class="form-control" name="trade_name">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">CNPJ/CPF</label>
+                    <input class="form-control" name="tax_id" required>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Tipo</label>
+                    <select class="form-select" name="person_type" required>
+                      <option value="PJ">PJ</option>
+                      <option value="PF">PF</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" name="status">
+                      <option value="ativo">Ativo</option>
+                      <option value="inativo">Inativo</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Regime tributário</label>
+                    <input class="form-control" name="tax_regime" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Mensalidade</label>
+                    <input class="form-control" name="monthly_fee" type="number" min="0" step="0.01" placeholder="0.00">
+                  </div>
+                </div>
+                <button class="btn btn-primary w-100 mt-3">Salvar cliente</button>
+                <p class="feedback mt-3 mb-0" role="status"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h2 class="h5">Cadastrar colaborador</h2>
+              <form onsubmit="createEmployee(event)">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="form-label">Usuário da equipe</label>
+                    <select class="form-select" id="teamUserSelect" name="user_id" required>
+                      <option value="">Carregando usuários...</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Setor</label>
+                    <input class="form-control" name="department" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Cargo</label>
+                    <input class="form-control" name="job_title" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">CRC</label>
+                    <input class="form-control" name="crc_number">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" name="employment_status">
+                      <option value="ativo">Ativo</option>
+                      <option value="inativo">Inativo</option>
+                    </select>
+                  </div>
+                </div>
+                <button class="btn btn-primary w-100 mt-3">Salvar colaborador</button>
+                <p class="feedback mt-3 mb-0" role="status"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="row g-4 mt-1">
+        <div class="col-xl-7">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <h2 class="h5">Clientes</h2>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>Razão social</th>
+                      <th>CNPJ/CPF</th>
+                      <th>Regime</th>
+                      <th>Mensalidade</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="customersBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <h2 class="h5">Colaboradores</h2>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Setor</th>
+                      <th>Cargo</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="employeesBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="row g-4 mt-1">
+        <div class="col-xl-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h2 class="h5">Nova tarefa</h2>
+              <form onsubmit="createTask(event)">
+                <div class="mb-3">
+                  <label class="form-label">Título</label>
+                  <input class="form-control" name="title" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Cliente</label>
+                  <select class="form-select" id="taskCustomerSelect" name="customer_id">
+                    <option value="">Sem cliente vinculado</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Setor</label>
+                  <input class="form-control" name="department" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Responsável</label>
+                  <select class="form-select" id="taskAssigneeSelect" name="assignee_id">
+                    <option value="">Sem responsável</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Prioridade</label>
+                  <select class="form-select" name="priority">
+                    <option>Baixa</option>
+                    <option selected>Média</option>
+                    <option>Alta</option>
+                    <option>Crítica</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Prazo</label>
+                  <input class="form-control" name="due_date" type="date">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Descrição</label>
+                  <textarea class="form-control" name="description" rows="3"></textarea>
+                </div>
+                <button class="btn btn-primary w-100">Criar tarefa</button>
+                <p class="feedback mt-3 mb-0" role="status"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-8">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 mb-0">Kanban de tarefas</h2>
+                <button class="btn btn-outline-secondary btn-sm" onclick="loadAdmin()">Atualizar</button>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6 col-xl-4">
+                  <div class="border rounded p-2 bg-body-tertiary h-100">
+                    <div class="small fw-semibold text-secondary mb-2">Criado</div>
+                    <div id="kanban-criado" class="vstack gap-2"></div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                  <div class="border rounded p-2 bg-body-tertiary h-100">
+                    <div class="small fw-semibold text-secondary mb-2">Análise</div>
+                    <div id="kanban-em_analise" class="vstack gap-2"></div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                  <div class="border rounded p-2 bg-body-tertiary h-100">
+                    <div class="small fw-semibold text-secondary mb-2">Andamento</div>
+                    <div id="kanban-em_andamento" class="vstack gap-2"></div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-6">
+                  <div class="border rounded p-2 bg-body-tertiary h-100">
+                    <div class="small fw-semibold text-secondary mb-2">Aguardando cliente</div>
+                    <div id="kanban-aguardando_cliente" class="vstack gap-2"></div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-6">
+                  <div class="border rounded p-2 bg-body-tertiary h-100">
+                    <div class="small fw-semibold text-secondary mb-2">Concluído</div>
+                    <div id="kanban-concluido" class="vstack gap-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="row g-4 mt-1">
+        <div class="col-xl-5">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h2 class="h5">Atribuir responsável por setor</h2>
+              <form onsubmit="createAssignment(event)">
+                <div class="mb-3">
+                  <label class="form-label">Cliente</label>
+                  <select class="form-select" id="assignmentCustomerSelect" name="customer_id" required></select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Setor</label>
+                  <input class="form-control" name="department" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Colaborador</label>
+                  <select class="form-select" id="assignmentEmployeeSelect" name="employee_id" required></select>
+                </div>
+                <button class="btn btn-primary w-100">Salvar atribuição</button>
+                <p class="feedback mt-3 mb-0" role="status"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-7">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h2 class="h5">Atribuições ativas</h2>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Setor</th>
+                      <th>Responsável</th>
+                      <th>Início</th>
+                    </tr>
+                  </thead>
+                  <tbody id="assignmentsBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="row g-4 mt-1">
+        <div class="col-xl-7">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 mb-0">Tickets da equipe</h2>
+                <button class="btn btn-outline-secondary btn-sm" onclick="loadAdmin()">Atualizar</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Assunto</th>
+                      <th>Cliente</th>
+                      <th>Prioridade</th>
+                      <th>Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="teamTicketsBody"></tbody>
+                </table>
+              </div>
+              <div id="teamTicketDetail" class="border-top pt-3 mt-3 d-none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h2 class="h5">Publicar guia fiscal</h2>
+              <form onsubmit="createGuide(event)">
+                <div class="mb-3">
+                  <label class="form-label">Cliente (portal)</label>
+                  <select class="form-select" id="fiscalClientSelectGuide" name="owner_id" required></select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Título</label>
+                  <input class="form-control" name="title" required>
+                </div>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <label class="form-label">Competência</label>
+                    <input class="form-control" name="competence" placeholder="09/2026" required>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Vencimento</label>
+                    <input class="form-control" name="due_date" type="date" required>
+                  </div>
+                </div>
+                <div class="row g-2 mt-1">
+                  <div class="col-6">
+                    <label class="form-label">Valor</label>
+                    <input class="form-control" name="amount" type="number" min="0" step="0.01" required>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" name="status">
+                      <option value="pendente">Pendente</option>
+                      <option value="pago">Pago</option>
+                    </select>
+                  </div>
+                </div>
+                <button class="btn btn-primary w-100 mt-3">Publicar guia</button>
+                <p class="feedback mt-3 mb-0" role="status"></p>
+              </form>
+              <hr>
+              <h2 class="h6">Guias recentes</h2>
+              <div id="teamGuidesList" class="small text-secondary">Sem registros.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="row g-4 mt-1">
+        <div class="col-xl-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h2 class="h5">Publicar obrigação fiscal</h2>
+              <form onsubmit="createObligation(event)">
+                <div class="mb-3">
+                  <label class="form-label">Cliente (portal)</label>
+                  <select class="form-select" id="fiscalClientSelectObligation" name="owner_id" required></select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Título</label>
+                  <input class="form-control" name="title" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Descrição</label>
+                  <textarea class="form-control" name="description" rows="2"></textarea>
+                </div>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <label class="form-label">Competência</label>
+                    <input class="form-control" name="competence" placeholder="09/2026" required>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Vencimento</label>
+                    <input class="form-control" name="due_date" type="date" required>
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <label class="form-label">Status</label>
+                  <select class="form-select" name="status">
+                    <option value="pendente">Pendente</option>
+                    <option value="concluido">Concluído</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary w-100 mt-3">Publicar obrigação</button>
+                <p class="feedback mt-3 mb-0" role="status"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h2 class="h5">Obrigações recentes</h2>
+              <div id="teamObligationsList" class="list-group list-group-flush"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="row g-4 mt-1 admin-only">
+        <div class="col-lg-5">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <h2 class="h5">Nova conta de acesso</h2>
+              <form onsubmit="createUser(event)">
+                <div class="mb-3">
+                  <label class="form-label">Nome</label>
+                  <input class="form-control" name="name" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">E-mail</label>
+                  <input class="form-control" name="email" type="email" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Senha inicial</label>
+                  <input class="form-control" name="password" type="password" minlength="8" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Perfil</label>
+                  <select class="form-select" name="role">
+                    <option value="cliente">Cliente</option>
+                    <option value="colaborador">Colaborador</option>
+                    <option value="admin">Administrador</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary w-100">Criar acesso</button>
+                <p class="feedback mt-3 mb-0" role="status"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <h2 class="h5">Usuários</h2>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>E-mail</th>
+                      <th>Perfil</th>
+                    </tr>
+                  </thead>
+                  <tbody id="usersBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacts" class="card border-0 shadow-sm mt-4">
+        <div class="card-body">
+          <h2 class="h5">Contatos do site</h2>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>E-mail</th>
+                  <th>Empresa</th>
+                  <th>Recebido em</th>
+                </tr>
+              </thead>
+              <tbody id="leadsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="portal.js"></script>
+  <script>initializePortal({roles:['admin','colaborador'],load:loadAdmin})</script>
+</body>
+</html>
