@@ -1,0 +1,117 @@
+╔════════════════════════════════════════════════════════════════╗
+║         FLUXO DO USUÁRIO - ARQUITETURA FINAL                 ║
+╚════════════════════════════════════════════════════════════════╝
+
+1️⃣ ACESSO À PLATAFORMA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+http://localhost:5000/acesso/equipe
+       ↓
+Backend: send_from_directory("portal-admin.html")
+       ↓
+HTML Carrega: /static/css/portal.css ✅
+             /static/js/portal.js ✅
+             /static/js/portal-admin.js ✅
+       ↓
+📋 Página de Login Renderizada
+
+
+2️⃣ AUTENTICAÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Usuário clica "Entrar"
+       ↓
+signIn() → POST /api/auth/login
+       ↓
+Backend: authenticate(email, password)
+       ↓
+response.set_cookie("access_token", JWT)
+       ↓
+✅ Redireciona para /portal/equipe
+
+
+3️⃣ CARREGAMENTO DO DASHBOARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GET /portal/equipe (com cookie)
+       ↓
+Backend: @require_portal_access("admin", "colaborador")
+       ↓
+✅ Valida token e role
+       ↓
+send_from_directory("portal/team/dashboard.html")
+       ↓
+HTML Carrega: /static/css/portal.css ✅
+             /static/css/team.css ✅
+             /static/js/portal.js ✅
+             /static/js/team/dashboard.js ✅
+       ↓
+📋 Dashboard com Skeleton Loaders
+
+
+4️⃣ CARREGAMENTO DE DADOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+JavaScript (DOMContentLoaded) executa initDashboard()
+       ↓
+Parallel API Requests:
+  • GET /api/auth/me
+  • GET /api/leads
+  • GET /api/operations/customers
+  • GET /api/operations/employees
+  • GET /api/operations/tasks
+  • GET /api/tickets
+  • GET /api/guides
+  • GET /api/fiscal-obligations
+       ↓
+✅ Backend retorna dados JSON
+       ↓
+JavaScript renderiza cards
+       ↓
+📋 Dashboard com dados carregados!
+
+
+╔════════════════════════════════════════════════════════════════╗
+║         ESTRUTURA DE PASTAS - NOVO PADRÃO                    ║
+╚════════════════════════════════════════════════════════════════╝
+
+static/ (NOVO - CENTRALIZADO)
+├── css/
+│   ├── portal.css ........... Estilos base
+│   └── team.css ............ Estilos dashboard
+└── js/
+    ├── portal.js ........... Funções globais
+    ├── portal-admin.js ..... Admin dashboard
+    ├── portal-client.js .... Client dashboard
+    └── team/
+        ├── dashboard.js .... Dashboard logic
+        ├── customers.js .... Customers logic
+        ├── employees.js .... Employees logic
+        ├── init.js ......... Generic init
+        └── admin-init.js ... Admin init only
+
+
+╔════════════════════════════════════════════════════════════════╗
+║           PRINCIPAIS CORREÇÕES REALIZADAS                    ║
+╚════════════════════════════════════════════════════════════════╝
+
+ANTES                          DEPOIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ /portal.css               ✅ /static/css/portal.css
+❌ /portal.js                ✅ /static/js/portal.js
+❌ /portal-admin.js          ✅ /static/js/portal-admin.js
+
+HTML Files:
+❌ portal-admin.html         ✅ portal-admin.html
+   Broken refs              Corrected refs
+
+JavaScript Functions:
+❌ initializePortal()        ✅ initializePortal()
+   Missing                  Added to portal.js
+
+❌ Dashboard blank           ✅ Dashboard with data
+   No data loaded           All API calls working
+
+
+✅ TUDO PRONTO PARA PRODUÇÃO!
