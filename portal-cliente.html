@@ -25,5 +25,8 @@
         <section id="client-tickets" class="client-section d-none"><div class="row g-4"><div class="col-xl-4"><div class="card border-0 shadow-sm"><div class="card-body"><h1 class="h5">Abrir novo ticket</h1><form onsubmit="createClientTicket(event)"><div class="mb-3"><label class="form-label">Assunto</label><input class="form-control" name="subject" required maxlength="200"></div><div class="mb-3"><label class="form-label">Categoria</label><select class="form-select" name="category"><option>Geral</option><option>Fiscal</option><option>Folha de pagamento</option><option>Documentos</option></select></div><div class="mb-3"><label class="form-label">Mensagem</label><textarea class="form-control" name="message" rows="4" required></textarea></div><button class="btn btn-primary w-100">Abrir ticket</button><p class="feedback mt-3 mb-0" role="status"></p></form></div></div></div><div class="col-xl-8"><div class="card border-0 shadow-sm"><div class="card-body"><h1 class="h5">Meus tickets</h1><div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>#</th><th>Assunto</th><th>Prioridade</th><th>Status</th><th></th></tr></thead><tbody id="ticketsBody"></tbody></table></div><div id="ticketDetail" class="border-top pt-3 d-none"></div></div></div></div></div></section>
       </main></div></div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="/portal.js"></script><script>initializePortal({roles:['cliente'],load:loadClient})</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/portal.js"></script>
+  <script src="/portal-client.js"></script>
+  <script>initializePortal({roles:['cliente'],load:loadClient})</script>
 </body></html>
