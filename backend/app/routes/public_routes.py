@@ -36,6 +36,8 @@ def client_portal():
     return send_from_directory(PROJECT_ROOT, "portal-cliente.html")
 
 
+@public_bp.get("/acesso/<path:filename>")
+@public_bp.get("/portal/<path:filename>")
 @public_bp.get("/<path:filename>")
 def public_assets(filename: str):
     allowed_assets = {

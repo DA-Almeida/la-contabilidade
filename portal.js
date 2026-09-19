@@ -4,14 +4,26 @@ const userKey = 'la_current_user';
 
 function session(){try{return {user:JSON.parse(localStorage.getItem(userKey))};}catch{return {user:null};}}
 function clearSession(){localStorage.removeItem(storageKey);localStorage.removeItem(userKey);}
-async function logout(){await fetch(`${api}/auth/logout`,{method:'POST'});clearSession();window.location.assign('/');}
+async function logout(){await fetch(`${api}/auth/logout`,{method:'POST',credentials:'same-origin'});clearSession();window.location.assign('/');}
 function showFeedback(element,message,isError=true){element.textContent=message;element.className=`feedback ${isError?'error':'success'}`;}
 async function signIn(event, expectedRoles){
   event.preventDefault();
-  const form=event.target,feedback=form.querySelector('.feedback'),button=form.querySelector('button');
+  const form=event.target;
+  if(!(form instanceof HTMLFormElement))return;
+  const feedback=form.querySelector('.feedback');
+  const button=form.querySelector('button[type="submit"]');
+  const payload={
+    email: String(form.email.value || '').trim(),
+    password: String(form.password.value || '')
+  };
   button.disabled=true;showFeedback(feedback,'Entrando...',false);
   try{
-    const response=await fetch(`${api}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(form)))});
+    const response=await fetch(`${api}/auth/login`,{
+      method:'POST',
+      credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
     const result=await response.json();
     if(!response.ok)throw new Error(result.error||'Não foi possível entrar.');
     if(!expectedRoles.includes(result.user.role))throw new Error('Esta conta não tem acesso a esta área.');
@@ -22,7 +34,7 @@ async function signIn(event, expectedRoles){
 async function request(path,options={}){
   const headers={...options.headers};
   if(!(options.body instanceof FormData))headers['Content-Type']='application/json';
-  const response=await fetch(`${api}${path}`,{...options,headers});
+  const response=await fetch(`${api}${path}`,{...options,headers,credentials:'same-origin'});
   const data=await response.json();
   if(!response.ok)throw new Error(data.error||'Não foi possível carregar os dados.');
   return data;
