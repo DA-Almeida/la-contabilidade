@@ -2,7 +2,12 @@
 
 async function initDashboard() {
   try {
-    const user = (await request('/auth/me')).user;
+    console.log('Dashboard initializing...');
+    
+    const authResponse = await request('/auth/me');
+    console.log('Auth response:', authResponse);
+    
+    const user = authResponse.user;
     document.querySelectorAll('[data-user-name]').forEach(el => el.textContent = user.name);
 
     const [
@@ -47,6 +52,7 @@ async function initDashboard() {
       </div>
     `).join('');
   } catch (error) {
+    console.error('Dashboard error:', error);
     document.getElementById('statsContainer').innerHTML = `<div class="col-12"><div class="alert alert-danger">Erro: ${error.message}</div></div>`;
   }
 }
