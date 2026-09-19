@@ -1,0 +1,308 @@
+/* ========================================
+   Sidebar Menu - IBM Design System
+   Minimalista, elegante e funcional
+   ======================================== */
+
+:root {
+  --sidebar-bg: #f4f4f4;
+  --sidebar-border: #e0e0e0;
+  --sidebar-text: #525252;
+  --sidebar-text-hover: #161616;
+  --sidebar-hover-bg: #e8e8e8;
+  --sidebar-active-bg: #e0e0e0;
+  --sidebar-active-border: #0043ce;
+  --sidebar-category-bg: #f4f4f4;
+  --sidebar-category-text: #393939;
+  --accent-blue: #0043ce;
+  --accent-light-blue: #e7f1ff;
+  --transition-duration: 200ms;
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Contenedor principal da sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Seção de Logo/Branding da Sidebar */
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--sidebar-border);
+  background-color: #fff;
+}
+
+.sidebar-header h6 {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--sidebar-category-text);
+}
+
+/* Navegação */
+.sidebar-nav {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Seções/Categorias do menu */
+.nav-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-section-title {
+  padding: 1rem 1.5rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #888;
+  margin: 0;
+  margin-top: 0.5rem;
+}
+
+.nav-section:first-child .nav-section-title {
+  margin-top: 0;
+  padding-top: 1rem;
+}
+
+/* Items do menu - Principal */
+.nav-item {
+  position: relative;
+  display: flex;
+}
+
+.nav-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  margin: 0.125rem 0.75rem;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 400;
+  border-radius: 0.375rem;
+  border-left: 3px solid transparent;
+  transition: all var(--transition-duration) var(--transition-timing);
+  position: relative;
+}
+
+.nav-link:hover {
+  background-color: var(--sidebar-hover-bg);
+  color: var(--sidebar-text-hover);
+}
+
+.nav-link.active {
+  background-color: var(--accent-light-blue);
+  color: var(--accent-blue);
+  font-weight: 500;
+  border-left-color: var(--accent-blue);
+}
+
+/* Ícones do menu */
+.nav-link i {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Texto do menu */
+.nav-link span {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Indicador de submenu */
+.nav-toggle {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--sidebar-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-duration) var(--transition-timing);
+  flex-shrink: 0;
+}
+
+.nav-toggle:hover {
+  color: var(--sidebar-text-hover);
+}
+
+.nav-toggle.expanded {
+  transform: rotate(90deg);
+}
+
+/* Submenus - Tree View */
+.nav-submenu {
+  display: none;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-duration) var(--transition-timing);
+}
+
+.nav-submenu.show {
+  display: flex;
+  max-height: 500px;
+}
+
+/* Items do submenu */
+.nav-submenu .nav-link {
+  padding-left: 3rem;
+  margin: 0.0625rem 0.75rem;
+  font-size: 0.9rem;
+  color: #6f6f6f;
+}
+
+.nav-submenu .nav-link:hover {
+  background-color: var(--sidebar-hover-bg);
+  color: var(--sidebar-text-hover);
+}
+
+.nav-submenu .nav-link.active {
+  background-color: var(--accent-light-blue);
+  color: var(--accent-blue);
+}
+
+/* Separadores */
+.nav-divider {
+  height: 1px;
+  background-color: var(--sidebar-border);
+  margin: 0.75rem 0.75rem;
+}
+
+/* Footer do sidebar (logout, etc) */
+.sidebar-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--sidebar-border);
+  background-color: #fff;
+  margin-top: auto;
+}
+
+.sidebar-footer .nav-link {
+  margin: 0;
+  padding: 0.75rem 0;
+  border-left: none;
+}
+
+.sidebar-footer .nav-link:hover {
+  margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 260px;
+    height: calc(100vh - 56px);
+    transform: translateX(-100%);
+    transition: transform var(--transition-duration) var(--transition-timing);
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .nav-link {
+    margin: 0.0625rem 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .nav-submenu .nav-link {
+    padding-left: 2.5rem;
+    margin: 0.0625rem 0.5rem;
+  }
+}
+
+/* Scrollbar customizada */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Animação suave de expansão */
+@keyframes expandMenu {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
+}
+
+.nav-submenu.show {
+  animation: expandMenu var(--transition-duration) var(--transition-timing);
+}
+
+/* Estados de carregamento */
+.nav-loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Dark mode (futuro) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sidebar-bg: #262626;
+    --sidebar-border: #404040;
+    --sidebar-text: #f4f4f4;
+    --sidebar-text-hover: #fff;
+    --sidebar-hover-bg: #343434;
+    --sidebar-active-bg: #393939;
+    --sidebar-category-text: #f4f4f4;
+  }
+
+  .sidebar-header,
+  .sidebar-footer {
+    background-color: #353535;
+  }
+
+  .sidebar-header {
+    border-bottom-color: #404040;
+  }
+
+  .sidebar-footer {
+    border-top-color: #404040;
+  }
+}
