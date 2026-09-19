@@ -1,0 +1,15 @@
+# Dependências de Desenvolvimento e Teste
+
+# Pytest e plugins
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-flask==1.3.0
+pytest-mock==3.12.0
+
+# Code quality
+black==23.12.0
+flake8==6.1.0
+isort==5.13.2
+
+# Documentação
+coverage==7.4.0
