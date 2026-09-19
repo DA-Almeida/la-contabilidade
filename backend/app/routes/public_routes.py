@@ -84,21 +84,3 @@ def client_portal():
     return send_from_directory(PROJECT_ROOT, "portal-cliente.html")
 
 
-@public_bp.get("/acesso/<path:filename>")
-@public_bp.get("/portal/<path:filename>")
-@public_bp.get("/<path:filename>")
-def public_assets(filename: str):
-    allowed_assets = {
-        "style.css", "site.js", "leacont.jpeg", "portal.css", "portal.js", 
-        "portal-admin.js", "portal-client.js", "portal/shared/layout.html",
-        "portal/shared/sidebar.html", "portal/shared/navbar.html",
-        "portal/team/dashboard.html", "portal/team/customers.html",
-        "portal/team/employees.html", "portal/team/tasks.html",
-        "portal/team/assignments.html", "portal/team/tickets.html",
-        "portal/team/guides.html", "portal/team/obligations.html",
-        "portal/team/users.html", "portal/team/modules.js",
-    }
-    if filename not in allowed_assets:
-        return {"error": "Rota não encontrada."}, 404
-    return send_from_directory(PROJECT_ROOT, filename)
-
