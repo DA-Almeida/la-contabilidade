@@ -34,8 +34,21 @@ def customer_users():
     return User.query.filter(User.role == "cliente").order_by(User.name).all()
 
 
+
 def tasks():
     return Task.query.order_by(Task.created_at.desc()).all()
+
+
+def tasks_by_visibility(user: User):
+    """Retorna tarefas visíveis baseado na role do usuário"""
+    query = Task.query.order_by(Task.created_at.desc())
+    # Admins e gerentes veem todas as tarefas
+    if user.role in {"admin", "gerente"}:
+        return query.all()
+    # Colaboradores comuns veem apenas tarefas públicas
+    if user.role == "colaborador":
+        query = query.filter(Task.is_private == False)
+    return query.all()
 
 
 def customer_by_id(customer_id: int):
@@ -141,6 +154,10 @@ def assign_customer(customer_id, data, actor):
 def create_task(data, actor):
     if not data.get("title") or not data.get("department"):
         raise ValueError("Título e setor são obrigatórios.")
+    # Apenas admins e gerentes podem criar tarefas privadas
+    is_private = False
+    if actor.role in {"admin", "gerente"} and data.get("is_private", False):
+        is_private = True
     task = Task(
         customer_id=data.get("customer_id") or None,
         department=data["department"],
@@ -149,6 +166,7 @@ def create_task(data, actor):
         description=data.get("description"),
         priority=data.get("priority", "Média"),
         due_date=_date(data.get("due_date")),
+        is_private=is_private,
         created_by_id=actor.id,
     )
     task.transitions.append(

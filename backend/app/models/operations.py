@@ -62,12 +62,13 @@ class Task(db.Model):
     priority = db.Column(db.String(20), nullable=False, default="Média", index=True)
     status = db.Column(db.String(30), nullable=False, default="criado", index=True)
     due_date = db.Column(db.Date, index=True)
+    is_private = db.Column(db.Boolean, nullable=False, default=False, index=True)
     created_by_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
     completed_at = db.Column(db.DateTime, index=True)
     customer = db.relationship("Customer"); assignee = db.relationship("EmployeeProfile")
     transitions = db.relationship("TaskTransition", back_populates="task", cascade="all, delete-orphan", order_by="TaskTransition.created_at")
-    def to_dict(self): return {"id":self.id,"customer_id":self.customer_id,"customer":self.customer.legal_name if self.customer else None,"department":self.department,"assignee_id":self.assignee_id,"assignee":self.assignee.user.name if self.assignee else None,"title":self.title,"description":self.description,"priority":self.priority,"status":self.status,"due_date":self.due_date.isoformat() if self.due_date else None,"created_at":self.created_at.isoformat(),"completed_at":self.completed_at.isoformat() if self.completed_at else None}
+    def to_dict(self): return {"id":self.id,"customer_id":self.customer_id,"customer":self.customer.legal_name if self.customer else None,"department":self.department,"assignee_id":self.assignee_id,"assignee":self.assignee.user.name if self.assignee else None,"title":self.title,"description":self.description,"priority":self.priority,"status":self.status,"due_date":self.due_date.isoformat() if self.due_date else None,"is_private":self.is_private,"created_at":self.created_at.isoformat(),"completed_at":self.completed_at.isoformat() if self.completed_at else None}
 
 
 class TaskTransition(db.Model):

@@ -14,8 +14,10 @@ from ..services.operations_service import (
     customers,
     employees,
     tasks,
+    tasks_by_visibility,
     team_users,
 )
+
 
 
 def get_customers():
@@ -52,11 +54,13 @@ def get_customer_users():
 
 def get_tasks():
     rows = []
-    for task in tasks():
+    # Usar tasks_by_visibility para respeitar permissões
+    for task in tasks_by_visibility(g.current_user):
         task_data = task.to_dict()
         task_data["next_statuses"] = available_next_statuses(task.status)
         rows.append(task_data)
     return jsonify(tasks=rows)
+
 
 
 def create_new_task():

@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/portal.css">
   <link rel="stylesheet" href="/static/css/team.css">
+  <link rel="stylesheet" href="/static/css/kanban.css">
 </head>
 <body>
   <div class="d-flex flex-column min-vh-100">
@@ -21,13 +22,62 @@
     <div class="flex-grow-1 p-3 p-md-4 bg-light">
       <div class="page-header mb-4">
         <h1 class="page-title">Tarefas</h1>
-        <p class="page-subtitle">Kanban de tarefas com workflow</p>
+        <p class="page-subtitle">Kanban com workflow de tarefas</p>
       </div>
-      <div class="alert alert-info"><i class="bi bi-info-circle"></i> Página em desenvolvimento. Sistema Kanban com drag-and-drop.</div>
+      <div class="d-flex gap-2 mb-4 flex-wrap">
+        <button class="btn btn-primary btn-sm" onclick="openNewTaskModal()" id="newTaskBtn">
+          <i class="bi bi-plus-circle"></i> Nova Tarefa
+        </button>
+        <button class="btn btn-outline-secondary btn-sm" onclick="refreshKanban()">
+          <i class="bi bi-arrow-clockwise"></i> Atualizar
+        </button>
+      </div>
+      <div class="kanban-container">
+        <div class="kanban-column">
+          <div class="kanban-header"><h5>Criado</h5><span class="badge bg-light text-dark" id="count-criado">0</span></div>
+          <div class="kanban-lane" id="kanban-criado" data-status="criado"></div>
+        </div>
+        <div class="kanban-column">
+          <div class="kanban-header"><h5>Em Análise</h5><span class="badge bg-light text-dark" id="count-em_analise">0</span></div>
+          <div class="kanban-lane" id="kanban-em_analise" data-status="em_analise"></div>
+        </div>
+        <div class="kanban-column">
+          <div class="kanban-header"><h5>Em Andamento</h5><span class="badge bg-light text-dark" id="count-em_andamento">0</span></div>
+          <div class="kanban-lane" id="kanban-em_andamento" data-status="em_andamento"></div>
+        </div>
+        <div class="kanban-column">
+          <div class="kanban-header"><h5>Aguardando Cliente</h5><span class="badge bg-light text-dark" id="count-aguardando_cliente">0</span></div>
+          <div class="kanban-lane" id="kanban-aguardando_cliente" data-status="aguardando_cliente"></div>
+        </div>
+        <div class="kanban-column">
+          <div class="kanban-header"><h5>Concluído</h5><span class="badge bg-light text-dark" id="count-concluido">0</span></div>
+          <div class="kanban-lane" id="kanban-concluido" data-status="concluido"></div>
+        </div>
+      </div>
     </div>
   </div>
+  <div class="modal fade" id="newTaskModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">Nova Tarefa</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <form id="newTaskForm">
+          <div class="modal-body">
+            <div class="mb-3"><label class="form-label">Título *</label><input type="text" class="form-control" id="taskTitle" required></div>
+            <div class="mb-3"><label class="form-label">Descrição</label><textarea class="form-control" id="taskDescription" rows="3"></textarea></div>
+            <div class="row"><div class="col-md-6 mb-3"><label class="form-label">Setor *</label><select class="form-select" id="taskDepartment" required></select></div><div class="col-md-6 mb-3"><label class="form-label">Prioridade</label><select class="form-select" id="taskPriority"><option value="Baixa">Baixa</option><option value="Média" selected>Média</option><option value="Alta">Alta</option></select></div></div>
+            <div class="row"><div class="col-md-6 mb-3"><label class="form-label">Cliente</label><select class="form-select" id="taskCustomer"></select></div><div class="col-md-6 mb-3"><label class="form-label">Responsável</label><select class="form-select" id="taskAssignee"></select></div></div>
+            <div class="mb-3"><label class="form-label">Data de Vencimento</label><input type="date" class="form-control" id="taskDueDate"></div>
+            <div class="form-check" id="privateCheckContainer" style="display: none;"><input class="form-check-input" type="checkbox" id="taskIsPrivate"><label class="form-check-label" for="taskIsPrivate">Tarefa privada (apenas para gerentes/admins)</label></div>
+          </div>
+          <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Criar Tarefa</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="taskDetailsModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Detalhes da Tarefa</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="taskDetailsContent"></div><div class="modal-footer" id="taskDetailsFooter"></div></div></div></div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
   <script src="/static/js/portal.js"></script>
-  <script src="/static/js/team/init.js"></script>
+  <script src="/static/js/team/tasks.js"></script>
 </body>
 </html>
