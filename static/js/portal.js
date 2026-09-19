@@ -111,3 +111,44 @@ function customerNameById(id, users) {
   const user = users.find(u => u.id === id);
   return user ? user.name : 'Desconhecido';
 }
+
+/* Portal Initialization */
+async function initializePortal({ roles, load }) {
+  let user;
+  try {
+    user = (await request('/auth/me')).user;
+    localStorage.setItem(userKey, JSON.stringify(user));
+  } catch {
+    user = null;
+  }
+  
+  const loginView = document.getElementById('loginView');
+  const appView = document.getElementById('appView');
+  
+  if (loginView) loginView.classList.toggle('d-none', Boolean(user));
+  if (appView) appView.classList.toggle('d-none', !user);
+  
+  if (!user) return;
+  if (!roles.includes(user.role)) {
+    clearSession();
+    window.location.reload();
+    return;
+  }
+  
+  document.querySelectorAll('[data-user-name]').forEach(el => el.textContent = user.name);
+  load();
+}
+
+/* Utility functions */
+function toPayload(form) {
+  const data = Object.fromEntries(new FormData(form));
+  Object.keys(data).forEach((key) => {
+    if (data[key] === '') delete data[key];
+  });
+  if (data.user_id) data.user_id = Number(data.user_id);
+  if (data.customer_id) data.customer_id = Number(data.customer_id);
+  if (data.assignee_id) data.assignee_id = Number(data.assignee_id);
+  if (data.employee_id) data.employee_id = Number(data.employee_id);
+  if (data.owner_id) data.owner_id = Number(data.owner_id);
+  return data;
+}

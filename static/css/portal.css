@@ -20,6 +20,55 @@ body {
   color: #146c43;
 }
 
+/* Skeleton loaders */
+.skeleton {
+  opacity: 0.6;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line {
+  height: 0.75rem;
+  background: #e9ecef;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+}
+
+/* Status badges */
+.status-ativo {
+  background-color: #28a745 !important;
+}
+
+.status-inativo {
+  background-color: #dc3545 !important;
+}
+
+.status-aberto {
+  background-color: #007bff !important;
+}
+
+.status-fechado {
+  background-color: #6c757d !important;
+}
+
+.status-pendente {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.status-concluido {
+  background-color: #28a745 !important;
+}
+
+/* Cursor pointer */
+.cursor-pointer {
+  cursor: pointer;
+}
+
 @media (max-width: 991.98px) {
   .min-vh-lg-100 {
     min-height: auto;
